@@ -260,7 +260,22 @@ function exportarDatos() {
     const url = URL.createObjectURL(blob);
 
     const fecha = new Date();
-    const nombreArchivo = `datos_${fecha.getFullYear()}${(fecha.getMonth() + 1).toString().padStart(2, '0')}${fecha.getDate().toString().padStart(2, '0')}_${fecha.getHours().toString().padStart(2, '0')}${fecha.getMinutes().toString().padStart(2, '0')}.json`;
+    
+    // Formatear la fecha como DD/MM/YYYY
+    const dia = fecha.getDate().toString().padStart(2, '0');
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    const anio = fecha.getFullYear();
+    
+    // Formatear la hora como HH:MM AM/PM
+    let horas = fecha.getHours();
+    const minutos = fecha.getMinutes().toString().padStart(2, '0');
+    const ampm = horas >= 12 ? 'PM' : 'AM';
+    
+    // Convertir a formato 12 horas
+    horas = horas % 12;
+    horas = horas ? horas : 12; // La hora 0 se convierte en 12
+    
+    const nombreArchivo = `datos_(${dia}/${mes}/${anio}_${horas}:${minutos}${ampm}).json`;
 
     const a = document.createElement('a');
     a.href = url;
